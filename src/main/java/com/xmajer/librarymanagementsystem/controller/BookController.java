@@ -115,6 +115,7 @@ public class BookController {
     })
     @PatchMapping("/{id}")
     public ResponseEntity<BookResponse> updateBook(
+            @Parameter(description = "Book ID", example = "1")
             @PathVariable
             @Positive(message = "Book ID must be positive.")
             Long id,
