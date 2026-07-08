@@ -12,4 +12,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @EntityGraph(attributePaths = "copies")
     @Query("select b from Book b where b.id = :id")
     Optional<Book> findByIdWithCopies(@Param("id") Long id);
+
+    boolean existsByTitle(String title);
+
+    boolean existsByIsbn(String isbn);
 }

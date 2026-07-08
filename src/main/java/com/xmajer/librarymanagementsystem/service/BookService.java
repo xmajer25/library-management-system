@@ -2,10 +2,12 @@ package com.xmajer.librarymanagementsystem.service;
 
 import com.xmajer.librarymanagementsystem.data.model.Book;
 import com.xmajer.librarymanagementsystem.data.repository.BookRepository;
+import com.xmajer.librarymanagementsystem.dto.request.CreateBookRequest;
 import com.xmajer.librarymanagementsystem.dto.response.BookDetailResponse;
 import com.xmajer.librarymanagementsystem.dto.response.BookResponse;
 import com.xmajer.librarymanagementsystem.exception.EntityNotFoundException;
 import com.xmajer.librarymanagementsystem.mapper.BookMapper;
+import com.xmajer.librarymanagementsystem.service.validation.BookValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,26 @@ import org.springframework.transaction.annotation.Transactional;
 public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final BookValidator bookValidator;
+
+    @Transactional
+    public BookResponse createBook(CreateBookRequest request) {
+        CreateBookRequest normalizedRequest = new CreateBookRequest(
+                request.title().trim(),
+                request.author().trim(),
+                request.isbn().trim(),
+                request.publishedYear()
+        );
+
+        bookValidator.validatePublishedYear(normalizedRequest.publishedYear());
+        bookValidator.validateUniqueTitle(normalizedRequest.title());
+        bookValidator.validateUniqueIsbn(normalizedRequest.isbn());
+
+        Book book = bookMapper.toEntity(normalizedRequest);
+        Book savedBook = bookRepository.save(book);
+
+        return bookMapper.toResponse(savedBook);
+    }
 
     @Transactional(readOnly = true)
     public BookDetailResponse getBookById(Long id){

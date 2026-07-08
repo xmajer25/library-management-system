@@ -1,5 +1,6 @@
 package com.xmajer.librarymanagementsystem.controller;
 
+import com.xmajer.librarymanagementsystem.dto.request.CreateBookRequest;
 import com.xmajer.librarymanagementsystem.dto.response.BookDetailResponse;
 import com.xmajer.librarymanagementsystem.dto.response.BookResponse;
 import com.xmajer.librarymanagementsystem.service.BookService;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -19,8 +21,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/books")
@@ -69,5 +75,25 @@ public class BookController {
         Page<BookResponse> responses = bookService.getBooks(pageable);
 
         return ResponseEntity.ok(responses);
+    }
+
+    @Operation(
+            summary = "Create new book",
+            description = "Creates a new book without copies and returns the created book."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Book created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request body"),
+            @ApiResponse(responseCode = "409", description = "Book title or ISBN already exists")
+    })
+    @PostMapping
+    public ResponseEntity<BookResponse> createBook(
+            @Valid @RequestBody CreateBookRequest request
+    ) {
+        BookResponse createdBook = bookService.createBook(request);
+
+        URI location = URI.create("/api/books/" + createdBook.id());
+
+        return ResponseEntity.created(location).body(createdBook);
     }
 }
