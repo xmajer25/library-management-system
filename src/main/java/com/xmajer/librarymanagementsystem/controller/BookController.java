@@ -1,6 +1,7 @@
 package com.xmajer.librarymanagementsystem.controller;
 
 import com.xmajer.librarymanagementsystem.dto.request.CreateBookRequest;
+import com.xmajer.librarymanagementsystem.dto.request.UpdateBookRequest;
 import com.xmajer.librarymanagementsystem.dto.response.BookDetailResponse;
 import com.xmajer.librarymanagementsystem.dto.response.BookResponse;
 import com.xmajer.librarymanagementsystem.service.BookService;
@@ -20,6 +21,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -95,5 +97,30 @@ public class BookController {
         URI location = URI.create("/api/books/" + createdBook.id());
 
         return ResponseEntity.created(location).body(createdBook);
+    }
+
+    @Operation(
+            summary = "Update book by ID",
+            description = "Partially updates an existing book. Only provided fields are updated."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Book updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid book ID or request body"),
+            @ApiResponse(responseCode = "404", description = "Book was not found"),
+            @ApiResponse(responseCode = "409", description = "Book title or ISBN already exists")
+    })
+    @PatchMapping("/{id}")
+    public ResponseEntity<BookResponse> updateBook(
+            @PathVariable
+            @Positive(message = "Book ID must be positive.")
+            Long id,
+
+            @Valid
+            @RequestBody
+            UpdateBookRequest request
+    ) {
+        BookResponse updatedBook = bookService.updateBook(id, request);
+
+        return ResponseEntity.ok(updatedBook);
     }
 }

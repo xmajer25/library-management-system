@@ -3,6 +3,7 @@ package com.xmajer.librarymanagementsystem.service;
 import com.xmajer.librarymanagementsystem.data.model.Book;
 import com.xmajer.librarymanagementsystem.data.repository.BookRepository;
 import com.xmajer.librarymanagementsystem.dto.request.CreateBookRequest;
+import com.xmajer.librarymanagementsystem.dto.request.UpdateBookRequest;
 import com.xmajer.librarymanagementsystem.dto.response.BookDetailResponse;
 import com.xmajer.librarymanagementsystem.dto.response.BookResponse;
 import com.xmajer.librarymanagementsystem.exception.EntityNotFoundException;
@@ -30,11 +31,29 @@ public class BookService {
                 request.publishedYear()
         );
 
-        bookValidator.validatePublishedYear(normalizedRequest.publishedYear());
-        bookValidator.validateUniqueTitle(normalizedRequest.title());
-        bookValidator.validateUniqueIsbn(normalizedRequest.isbn());
+        bookValidator.validateCreate(normalizedRequest);
 
         Book book = bookMapper.toEntity(normalizedRequest);
+        Book savedBook = bookRepository.save(book);
+
+        return bookMapper.toResponse(savedBook);
+    }
+
+    @Transactional
+    public BookResponse updateBook(Long id, UpdateBookRequest request) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book", id));
+
+        UpdateBookRequest normalizedRequest = new UpdateBookRequest(
+                request.title() == null ? null : request.title().trim(),
+                request.author() == null ? null : request.author().trim(),
+                request.isbn() == null ? null : request.isbn().trim(),
+                request.publishedYear()
+        );
+
+        bookValidator.validateUpdate(id, request);
+
+        bookMapper.updateEntityFromRequest(normalizedRequest, book);
         Book savedBook = bookRepository.save(book);
 
         return bookMapper.toResponse(savedBook);
