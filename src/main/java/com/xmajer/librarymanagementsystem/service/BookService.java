@@ -3,9 +3,12 @@ package com.xmajer.librarymanagementsystem.service;
 import com.xmajer.librarymanagementsystem.data.model.Book;
 import com.xmajer.librarymanagementsystem.data.repository.BookRepository;
 import com.xmajer.librarymanagementsystem.dto.response.BookDetailResponse;
+import com.xmajer.librarymanagementsystem.dto.response.BookResponse;
 import com.xmajer.librarymanagementsystem.exception.EntityNotFoundException;
 import com.xmajer.librarymanagementsystem.mapper.BookMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,5 +24,12 @@ public class BookService {
                 .orElseThrow(() -> new EntityNotFoundException("Book", id));
 
         return bookMapper.toDetailedResponse(book);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<BookResponse> getBooks(Pageable pageable){
+        Page<Book> books = bookRepository.findAll(pageable);
+
+        return books.map(bookMapper::toResponse);
     }
 }
