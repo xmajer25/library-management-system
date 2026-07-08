@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,6 +61,7 @@ public class BookController {
         return ResponseEntity.ok(bookDetailResponse);
     }
 
+
     @Operation(
             summary = "Get books",
             description = "Returns paginated books with defaults: size: 10, max size: 100, sort: title ascending."
@@ -78,6 +80,7 @@ public class BookController {
 
         return ResponseEntity.ok(responses);
     }
+
 
     @Operation(
             summary = "Create new book",
@@ -98,6 +101,7 @@ public class BookController {
 
         return ResponseEntity.created(location).body(createdBook);
     }
+
 
     @Operation(
             summary = "Update book by ID",
@@ -122,5 +126,27 @@ public class BookController {
         BookResponse updatedBook = bookService.updateBook(id, request);
 
         return ResponseEntity.ok(updatedBook);
+    }
+
+
+    @Operation(
+            summary = "Delete book by ID",
+            description = "Deletes a book and its copies."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Book deleted successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid book ID"),
+            @ApiResponse(responseCode = "404", description = "Book was not found")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBook(
+            @Parameter(description = "Book ID", example = "1")
+            @PathVariable
+            @Positive(message = "Book ID must be positive.")
+            Long id
+    ) {
+        bookService.deleteBook(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

@@ -59,6 +59,14 @@ public class BookService {
         return bookMapper.toResponse(savedBook);
     }
 
+    @Transactional
+    public void deleteBook(Long id) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book", id));
+
+        bookRepository.delete(book);
+    }
+
     @Transactional(readOnly = true)
     public BookDetailResponse getBookById(Long id){
         Book book = bookRepository.findByIdWithCopies(id)
