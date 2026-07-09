@@ -38,6 +38,11 @@ public class BookCopy {
     @Setter
     private Boolean available = true;
 
+    public BookCopy(Book book) {
+        this.book = book;
+        this.available = true;
+    }
+
     @PrePersist
     void prePersist() {
         if (available == null) {
