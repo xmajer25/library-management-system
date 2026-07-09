@@ -1,4 +1,79 @@
 package com.xmajer.librarymanagementsystem.support;
 
-public class TestDataFactory {
+import com.xmajer.librarymanagementsystem.data.model.Book;
+import com.xmajer.librarymanagementsystem.dto.request.CreateBookRequest;
+import com.xmajer.librarymanagementsystem.dto.request.UpdateBookRequest;
+import com.xmajer.librarymanagementsystem.dto.response.BookDetailResponse;
+import com.xmajer.librarymanagementsystem.dto.response.BookResponse;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import java.util.List;
+
+public final class TestDataFactory {
+
+    private TestDataFactory() {
+    }
+
+    public static Book createBook() {
+        return createBook(
+                1L,
+                "Clean Code",
+                "Robert C. Martin",
+                "978-0132350884",
+                2008
+        );
+    }
+
+    public static Book createBook(
+            Long id,
+            String title,
+            String author,
+            String isbn,
+            Integer publishedYear
+    ) {
+        Book book = new Book(title, author, isbn, publishedYear);
+
+        ReflectionTestUtils.setField(book, "id", id);
+
+        return book;
+    }
+
+    public static CreateBookRequest createBookRequest() {
+        return new CreateBookRequest(
+                "Clean Code",
+                "Robert C. Martin",
+                "978-0132350884",
+                2008
+        );
+    }
+
+    public static BookResponse createBookResponse() {
+        return new BookResponse(
+                1L,
+                "Clean Code",
+                "Robert C. Martin",
+                "978-0132350884",
+                2008
+        );
+    }
+
+    public static BookDetailResponse createBookDetailResponse() {
+        return new BookDetailResponse(
+                1L,
+                "Clean Code",
+                "Robert C. Martin",
+                "978-0132350884",
+                2008,
+                List.of()
+        );
+    }
+
+    public static UpdateBookRequest createUpdateBookRequest() {
+        return new UpdateBookRequest(
+                "Clean Code - Updated",
+                null,
+                null,
+                2009
+        );
+    }
 }
