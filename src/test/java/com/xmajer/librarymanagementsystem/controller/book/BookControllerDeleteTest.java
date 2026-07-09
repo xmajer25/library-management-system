@@ -1,5 +1,6 @@
-package com.xmajer.librarymanagementsystem.controller;
+package com.xmajer.librarymanagementsystem.controller.book;
 
+import com.xmajer.librarymanagementsystem.controller.BookController;
 import com.xmajer.librarymanagementsystem.exception.EntityNotFoundException;
 import com.xmajer.librarymanagementsystem.service.BookService;
 import org.junit.jupiter.api.Test;

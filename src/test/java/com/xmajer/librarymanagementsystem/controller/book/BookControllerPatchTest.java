@@ -1,5 +1,6 @@
-package com.xmajer.librarymanagementsystem.controller;
+package com.xmajer.librarymanagementsystem.controller.book;
 
+import com.xmajer.librarymanagementsystem.controller.BookController;
 import com.xmajer.librarymanagementsystem.dto.request.UpdateBookRequest;
 import com.xmajer.librarymanagementsystem.dto.response.BookResponse;
 import com.xmajer.librarymanagementsystem.exception.DuplicateResourceException;
