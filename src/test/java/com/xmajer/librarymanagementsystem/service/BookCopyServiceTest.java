@@ -48,7 +48,7 @@ class BookCopyServiceTest {
 
     @Test
     void getBookCopies_whenBookExists_returnsMappedCopies() {
-        Book book = createBook();
+        Book book = createBook(BOOK_ID);
 
         BookCopy availableCopy = new BookCopy(book);
 
@@ -122,7 +122,7 @@ class BookCopyServiceTest {
 
     @Test
     void addBookCopy_whenBookExists_savesAndReturnsCreatedCopy() {
-        Book book = createBook();
+        Book book = createBook(BOOK_ID);
 
         BookCopy savedBookCopy = new BookCopy(book);
 
@@ -174,7 +174,7 @@ class BookCopyServiceTest {
 
     @Test
     void updateAvailability_whenCopyExists_updatesSavesAndReturnsCopy() {
-        Book book = createBook();
+        Book book = createBook(BOOK_ID);
 
         BookCopy bookCopy = new BookCopy(book);
 

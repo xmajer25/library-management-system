@@ -38,6 +38,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class BookServiceTest {
+    private static final Long BOOK_ID = 1L;
+
     @Mock
     private BookRepository bookRepository;
 
@@ -56,9 +58,9 @@ public class BookServiceTest {
 
     @BeforeEach
     void setUp() {
-        book = createBook();
-        bookResponse = createBookResponse();
-        bookDetailResponse = createBookDetailResponse();
+        book = createBook(BOOK_ID);
+        bookResponse = createBookResponse(BOOK_ID);
+        bookDetailResponse = createBookDetailResponse(BOOK_ID);
     }
 
     @Test
@@ -120,8 +122,8 @@ public class BookServiceTest {
     void createBook_withValidRequest_savesAndReturnsCreatedBook() {
         CreateBookRequest request = createBookRequest();
 
-        Book mappedBook = createBook();
-        Book savedBook = createBook();
+        Book mappedBook = createBook(BOOK_ID);
+        Book savedBook = createBook(BOOK_ID);
 
         when(bookMapper.toEntity(any(CreateBookRequest.class)))
                 .thenReturn(mappedBook);
@@ -219,7 +221,7 @@ public class BookServiceTest {
                 2008
         );
 
-        Book mappedBook = createBook();
+        Book mappedBook = createBook(BOOK_ID);
 
         when(bookMapper.toEntity(any(CreateBookRequest.class)))
                 .thenReturn(mappedBook);

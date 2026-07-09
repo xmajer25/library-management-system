@@ -3,6 +3,7 @@ package com.xmajer.librarymanagementsystem.support;
 import com.xmajer.librarymanagementsystem.data.model.Book;
 import com.xmajer.librarymanagementsystem.dto.request.CreateBookRequest;
 import com.xmajer.librarymanagementsystem.dto.request.UpdateBookRequest;
+import com.xmajer.librarymanagementsystem.dto.response.BookCopyResponse;
 import com.xmajer.librarymanagementsystem.dto.response.BookDetailResponse;
 import com.xmajer.librarymanagementsystem.dto.response.BookResponse;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -14,9 +15,9 @@ public final class TestDataFactory {
     private TestDataFactory() {
     }
 
-    public static Book createBook() {
+    public static Book createBook(Long id) {
         return createBook(
-                1L,
+                id,
                 "Clean Code",
                 "Robert C. Martin",
                 "978-0132350884",
@@ -47,9 +48,9 @@ public final class TestDataFactory {
         );
     }
 
-    public static BookResponse createBookResponse() {
+    public static BookResponse createBookResponse(Long id) {
         return new BookResponse(
-                1L,
+                id,
                 "Clean Code",
                 "Robert C. Martin",
                 "978-0132350884",
@@ -57,14 +58,28 @@ public final class TestDataFactory {
         );
     }
 
-    public static BookDetailResponse createBookDetailResponse() {
+    public static BookDetailResponse createBookDetailResponse(Long id) {
         return new BookDetailResponse(
-                1L,
+                id,
                 "Clean Code",
                 "Robert C. Martin",
                 "978-0132350884",
                 2008,
                 List.of()
+        );
+    }
+
+    public static BookDetailResponse createBookDetailResponseWithCopies(Long id) {
+        return new BookDetailResponse(
+                id,
+                "Clean Code",
+                "Robert C. Martin",
+                "978-0132350884",
+                2008,
+                List.of(
+                        new BookCopyResponse(10L, true),
+                        new BookCopyResponse(11L, false)
+                )
         );
     }
 
