@@ -35,7 +35,6 @@ import java.net.URI;
 @RequestMapping("/api/books")
 @RequiredArgsConstructor
 @Tag(name = "Books", description = "Operations for managing books")
-@Validated
 public class BookController {
 
     private final BookService bookService;

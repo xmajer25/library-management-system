@@ -27,7 +27,6 @@ import java.util.List;
 @RequestMapping("/api/books/{bookId}/copies")
 @RequiredArgsConstructor
 @Tag(name = "Book Copies", description = "Operations for managing book copies")
-@Validated
 public class BookCopyController {
     private final BookCopyService bookCopyService;
 
