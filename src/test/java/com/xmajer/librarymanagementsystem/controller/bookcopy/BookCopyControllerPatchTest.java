@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.xmajer.librarymanagementsystem.support.TestDataFactory.createBookCopyResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -35,7 +36,7 @@ class BookCopyControllerPatchTest {
 
     @Test
     void updateAvailability_withValidRequest_returnsUpdatedCopy() throws Exception {
-        BookCopyResponse response = new BookCopyResponse(COPY_ID, false);
+        BookCopyResponse response = createBookCopyResponse(COPY_ID, false);
 
         when(bookCopyService.updateAvailability(
                 any(Long.class),

@@ -10,6 +10,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.xmajer.librarymanagementsystem.support.TestDataFactory.createBookCopyResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -34,7 +35,7 @@ class BookCopyControllerPostTest {
 
     @Test
     void addBookCopy_whenBookExists_returnsCreatedCopyAndLocationHeader() throws Exception {
-        BookCopyResponse response = new BookCopyResponse(COPY_ID, true);
+        BookCopyResponse response = createBookCopyResponse(COPY_ID, true);
 
         when(bookCopyService.addBookCopy(BOOK_ID))
                 .thenReturn(response);

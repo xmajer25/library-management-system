@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static com.xmajer.librarymanagementsystem.support.TestDataFactory.createBookCopyResponse;
+import static com.xmajer.librarymanagementsystem.support.TestDataFactory.createBookResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -35,8 +37,8 @@ class BookCopyControllerGetTest {
     @Test
     void getBookCopies_whenBookExistsWithCopies_returnsOkAndCopies() throws Exception {
         List<BookCopyResponse> responses = List.of(
-                new BookCopyResponse(10L, true),
-                new BookCopyResponse(11L, false)
+                createBookCopyResponse(10L, true),
+                createBookCopyResponse(11L, false)
         );
 
         when(bookCopyService.getBookCopies(BOOK_ID))

@@ -48,6 +48,10 @@ public final class TestDataFactory {
         );
     }
 
+    public static BookCopyResponse createBookCopyResponse(Long id, boolean available) {
+        return new BookCopyResponse(id, available);
+    }
+
     public static BookResponse createBookResponse(Long id) {
         return new BookResponse(
                 id,
