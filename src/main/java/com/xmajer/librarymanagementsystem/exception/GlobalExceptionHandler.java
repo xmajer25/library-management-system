@@ -1,5 +1,6 @@
 package com.xmajer.librarymanagementsystem.exception;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -25,6 +27,11 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 fieldErrors.put(error.getField(), error.getDefaultMessage())
         );
+
+        log.atDebug()
+                .setMessage("Request body validation failed")
+                .addKeyValue("fieldErrors", fieldErrors)
+                .log();
 
         ApiErrorResponse response = new ApiErrorResponse(
                 Instant.now(),
@@ -43,6 +50,11 @@ public class GlobalExceptionHandler {
             HandlerMethodValidationException ex,
             HttpServletRequest request
     ) {
+        log.atDebug()
+                .setMessage("Request parameter validation failed")
+                .addKeyValue("exceptionType", ex.getClass().getSimpleName())
+                .log();
+
         ApiErrorResponse response = new ApiErrorResponse(
                 Instant.now(),
                 HttpStatus.BAD_REQUEST.value(),
@@ -60,6 +72,12 @@ public class GlobalExceptionHandler {
             DataIntegrityViolationException ex,
             HttpServletRequest request
     ) {
+        log.atWarn()
+                .setMessage("Database constraint violation")
+                .addKeyValue("exceptionType", ex.getClass().getSimpleName())
+                .setCause(ex)
+                .log();
+
         ApiErrorResponse response = new ApiErrorResponse(
                 Instant.now(),
                 HttpStatus.CONFLICT.value(),
@@ -77,6 +95,12 @@ public class GlobalExceptionHandler {
             Exception ex,
             HttpServletRequest request
     ) {
+        log.atError()
+                .setMessage("Unexpected error occurred")
+                .addKeyValue("exceptionType", ex.getClass().getSimpleName())
+                .setCause(ex)
+                .log();
+
         ApiErrorResponse response = new ApiErrorResponse(
                 Instant.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -94,6 +118,12 @@ public class GlobalExceptionHandler {
             EntityNotFoundException ex,
             HttpServletRequest request
     ){
+        log.atDebug()
+                .setMessage("Requested entity was not found")
+                .addKeyValue("exceptionType", ex.getClass().getSimpleName())
+                .addKeyValue("reason", ex.getMessage())
+                .log();
+
         ApiErrorResponse response = new ApiErrorResponse(
                 Instant.now(),
                 HttpStatus.NOT_FOUND.value(),
@@ -111,6 +141,12 @@ public class GlobalExceptionHandler {
             DuplicateResourceException ex,
             HttpServletRequest request
     ){
+        log.atDebug()
+                .setMessage("Duplicate resource rejected")
+                .addKeyValue("exceptionType", ex.getClass().getSimpleName())
+                .addKeyValue("reason", ex.getMessage())
+                .log();
+
         ApiErrorResponse response = new ApiErrorResponse(
                 Instant.now(),
                 HttpStatus.CONFLICT.value(),
@@ -128,6 +164,12 @@ public class GlobalExceptionHandler {
             InvalidRequestException ex,
             HttpServletRequest request
     ){
+        log.atDebug()
+                .setMessage("Invalid request rejected")
+                .addKeyValue("exceptionType", ex.getClass().getSimpleName())
+                .addKeyValue("reason", ex.getMessage())
+                .log();
+
         ApiErrorResponse response = new ApiErrorResponse(
                 Instant.now(),
                 HttpStatus.BAD_REQUEST.value(),

@@ -13,6 +13,7 @@ import com.xmajer.librarymanagementsystem.service.validation.BookValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -32,6 +33,7 @@ import static com.xmajer.librarymanagementsystem.support.TestDataFactory.createU
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -244,5 +246,45 @@ public class BookServiceTest {
                         2008
                 )
         );
+    }
+
+    @Test
+    void updateBook_normalizesRequestBeforeValidationAndMapping() {
+        Long bookId = 1L;
+
+        Book book = createBook(bookId);
+
+        UpdateBookRequest request = new UpdateBookRequest(
+                "  Clean Code Updated  ",
+                "  Robert C. Martin  ",
+                "  978-0132350884  ",
+                2009
+        );
+
+        when(bookRepository.findById(bookId))
+                .thenReturn(Optional.of(book));
+
+        when(bookRepository.save(book))
+                .thenReturn(book);
+
+        when(bookMapper.toResponse(book))
+                .thenReturn(createBookResponse(bookId));
+
+        bookService.updateBook(bookId, request);
+
+        ArgumentCaptor<UpdateBookRequest> validatorCaptor =
+                ArgumentCaptor.forClass(UpdateBookRequest.class);
+
+        verify(bookValidator).validateUpdate(
+                eq(bookId),
+                validatorCaptor.capture()
+        );
+
+        UpdateBookRequest validatedRequest = validatorCaptor.getValue();
+
+        assertEquals("Clean Code Updated", validatedRequest.title());
+        assertEquals("Robert C. Martin", validatedRequest.author());
+        assertEquals("978-0132350884", validatedRequest.isbn());
+        assertEquals(2009, validatedRequest.publishedYear());
     }
 }

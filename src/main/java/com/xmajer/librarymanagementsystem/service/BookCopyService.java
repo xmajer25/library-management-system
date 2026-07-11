@@ -9,11 +9,13 @@ import com.xmajer.librarymanagementsystem.dto.response.BookCopyResponse;
 import com.xmajer.librarymanagementsystem.exception.EntityNotFoundException;
 import com.xmajer.librarymanagementsystem.mapper.BookCopyMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookCopyService {
@@ -41,6 +43,13 @@ public class BookCopyService {
         BookCopy bookCopy = new BookCopy(book);
         BookCopy savedBookCopy = bookCopyRepository.save(bookCopy);
 
+        log.atInfo()
+                .setMessage("Book copy successfully added")
+                .addKeyValue("bookCopyId", savedBookCopy.getId())
+                .addKeyValue("bookId", savedBookCopy.getBook().getId())
+                .log();
+
+
         return bookCopyMapper.toResponse(savedBookCopy);
     }
 
@@ -55,6 +64,13 @@ public class BookCopyService {
 
         bookCopyMapper.updateEntityFromRequest(request, bookCopy);
         BookCopy savedBookCopy = bookCopyRepository.save(bookCopy);
+
+        log.atInfo()
+                .setMessage("Book copy availability successfully updated")
+                .addKeyValue("bookCopyId", savedBookCopy.getId())
+                .addKeyValue("bookId", savedBookCopy.getBook().getId())
+                .addKeyValue("available", savedBookCopy.getAvailable())
+                .log();
 
         return bookCopyMapper.toResponse(savedBookCopy);
     }

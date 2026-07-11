@@ -10,11 +10,13 @@ import com.xmajer.librarymanagementsystem.exception.EntityNotFoundException;
 import com.xmajer.librarymanagementsystem.mapper.BookMapper;
 import com.xmajer.librarymanagementsystem.service.validation.BookValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookService {
@@ -36,6 +38,13 @@ public class BookService {
         Book book = bookMapper.toEntity(normalizedRequest);
         Book savedBook = bookRepository.save(book);
 
+        log.atInfo()
+                .setMessage("Book created successfully")
+                .addKeyValue("bookId", savedBook.getId())
+                .addKeyValue("title", savedBook.getTitle())
+                .addKeyValue("isbn", savedBook.getIsbn())
+                .log();
+
         return bookMapper.toResponse(savedBook);
     }
 
@@ -51,10 +60,17 @@ public class BookService {
                 request.publishedYear()
         );
 
-        bookValidator.validateUpdate(id, request);
+        bookValidator.validateUpdate(id, normalizedRequest);
 
         bookMapper.updateEntityFromRequest(normalizedRequest, book);
         Book savedBook = bookRepository.save(book);
+
+        log.atInfo()
+                .setMessage("Book updated successfully")
+                .addKeyValue("bookId", savedBook.getId())
+                .addKeyValue("title", savedBook.getTitle())
+                .addKeyValue("isbn", savedBook.getIsbn())
+                .log();
 
         return bookMapper.toResponse(savedBook);
     }
@@ -65,6 +81,14 @@ public class BookService {
                 .orElseThrow(() -> new EntityNotFoundException("Book", id));
 
         bookRepository.delete(book);
+
+        log.atInfo()
+                .setMessage("Book deleted successfully")
+                .addKeyValue("bookId", book.getId())
+                .addKeyValue("title", book.getTitle())
+                .addKeyValue("isbn", book.getIsbn())
+                .log();
+
     }
 
     @Transactional(readOnly = true)
