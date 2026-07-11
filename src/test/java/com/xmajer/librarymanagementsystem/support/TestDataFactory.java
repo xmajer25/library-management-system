@@ -15,6 +15,19 @@ public final class TestDataFactory {
     private TestDataFactory() {
     }
 
+    public static Book createBookWithoutId(
+            String title,
+            String author,
+            String isbn
+    ) {
+        return new Book(
+                title,
+                author,
+                isbn,
+                2008
+        );
+    }
+
     public static Book createBook(Long id) {
         return createBook(
                 id,
