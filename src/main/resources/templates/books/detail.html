@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: commonHead(${book.title} + ' | The Library')}"></head>
+<body>
+
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+
+<main class="page-container">
+    <a class="back-link" th:href="@{/books}">
+        <span aria-hidden="true">&larr;</span> Back to books
+    </a>
+
+    <article class="book-detail-card">
+        <div class="book-detail-decoration" aria-hidden="true">
+            <span>&loz;</span>
+        </div>
+
+        <div class="book-detail-content">
+            <p class="detail-eyebrow">Book details</p>
+
+            <h1 th:text="${book.title}">Book title</h1>
+
+            <p class="detail-author">
+                by <span th:text="${book.author}">Author name</span>
+            </p>
+
+            <div class="gold-divider" aria-hidden="true">&diams;</div>
+
+            <dl class="detail-metadata">
+                <div>
+                    <dt>ISBN</dt>
+                    <dd th:text="${book.isbn}">978-0000000000</dd>
+                </div>
+
+                <div>
+                    <dt>Published year</dt>
+                    <dd th:text="${book.publishedYear}">2008</dd>
+                </div>
+
+                <div>
+                    <dt>Total copies</dt>
+                    <dd th:text="${book.copies.size()}">0</dd>
+                </div>
+            </dl>
+        </div>
+    </article>
+
+    <section class="copies-section" aria-labelledby="copies-title">
+        <div class="section-heading-row">
+            <div>
+                <span class="section-kicker">Inventory</span>
+                <h2 id="copies-title">Copies</h2>
+            </div>
+        </div>
+
+        <div class="copies-list" th:if="${!book.copies.isEmpty()}">
+            <article class="copy-row" th:each="copy : ${book.copies}">
+                <div class="copy-info">
+                    <span class="copy-icon" aria-hidden="true">#</span>
+
+                    <div>
+                        <strong>Copy <span th:text="${copy.id}">1</span></strong>
+                        <small>Physical library item</small>
+                    </div>
+                </div>
+
+                <span
+                        class="status-badge"
+                        th:classappend="${copy.available} ? 'available' : 'unavailable'"
+                        th:text="${copy.available ? 'Available' : 'Unavailable'}"
+                >
+                    Available
+                </span>
+            </article>
+        </div>
+
+        <section class="empty-state compact" th:if="${book.copies.isEmpty()}">
+            <span class="empty-symbol" aria-hidden="true">&sect;</span>
+            <h2>No copies recorded</h2>
+            <p>This book exists in the catalog, but no physical copies are registered yet.</p>
+        </section>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+
+</body>
+</html>

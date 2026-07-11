@@ -1,0 +1,65 @@
+:root {
+    --wood-darkest: #1c120d;
+    --wood-dark: #2b1a12;
+    --wood-medium: #4a2c1d;
+    --wood-light: #6b4226;
+
+    --parchment: #f3e9d2;
+    --parchment-light: #fffaf0;
+    --parchment-dark: #dfcfac;
+
+    --gold: #b98b3f;
+    --gold-light: #d5ae62;
+    --gold-dark: #8d652a;
+
+    --ink: #33251d;
+    --ink-light: #6d5748;
+
+    --success: #426b46;
+    --success-light: #dce9da;
+
+    --danger: #884a3b;
+    --danger-light: #efdcd6;
+
+    --shadow: 0 12px 30px rgba(32, 18, 10, 0.18);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100vh;
+    margin: 0;
+
+    color: var(--ink);
+
+    font-family:
+            Georgia,
+            "Times New Roman",
+            serif;
+
+    background:
+            radial-gradient(
+                    circle at top,
+                    rgba(255, 250, 235, 0.96),
+                    rgba(230, 210, 170, 0.92)
+            ),
+            var(--parchment);
+
+    line-height: 1.6;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}

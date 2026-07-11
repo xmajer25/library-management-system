@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: commonHead('Page Not Found | The Library')}"></head>
+<body>
+
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+
+<main class="page-container">
+    <section class="error-page">
+        <span class="error-code">404</span>
+        <span class="empty-symbol" aria-hidden="true">&sect;</span>
+
+        <h1>This page has vanished from the archives</h1>
+
+        <p>The page you seek could not be found within our collection.</p>
+
+        <a class="error-home-link" th:href="@{/books}">
+            Return to the collection
+        </a>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+
+</body>
+</html>

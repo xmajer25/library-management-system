@@ -1,4 +1,6 @@
 package com.xmajer.librarymanagementsystem.exception;
+import com.xmajer.librarymanagementsystem.controller.BookController;
+import com.xmajer.librarymanagementsystem.controller.BookCopyController;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,7 +16,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@RestControllerAdvice
+@RestControllerAdvice(
+        assignableTypes = {
+                BookController.class,
+                BookCopyController.class
+        }
+)
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

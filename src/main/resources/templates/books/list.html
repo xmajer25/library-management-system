@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: commonHead('Books | The Library')}"></head>
+<body>
+
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+
+<main class="page-container">
+    <section class="page-heading" aria-labelledby="collection-title">
+        <span class="section-ornament" aria-hidden="true">&diams;</span>
+
+        <h1 id="collection-title">Our Collection</h1>
+
+        <p>Browse the books currently held within our library.</p>
+    </section>
+
+    <section class="collection-toolbar" aria-label="Collection tools">
+        <form class="sort-form" method="get" th:action="@{/books}">
+            <label for="sort">Sort collection</label>
+
+            <div class="sort-control">
+                <select id="sort" name="sort" onchange="this.form.submit()">
+                    <option value="title,asc" th:selected="${currentSort == 'title,asc'}">
+                        Title A-Z
+                    </option>
+                    <option value="title,desc" th:selected="${currentSort == 'title,desc'}">
+                        Title Z-A
+                    </option>
+                    <option value="author,asc" th:selected="${currentSort == 'author,asc'}">
+                        Author A-Z
+                    </option>
+                    <option value="publishedYear,desc" th:selected="${currentSort == 'publishedYear,desc'}">
+                        Newest first
+                    </option>
+                    <option value="publishedYear,asc" th:selected="${currentSort == 'publishedYear,asc'}">
+                        Oldest first
+                    </option>
+                </select>
+            </div>
+
+        </form>
+    </section>
+
+    <section class="book-grid" th:if="${!books.content.isEmpty()}" aria-label="Books">
+        <article class="book-card" th:each="book : ${books.content}">
+            <div class="book-spine" aria-hidden="true"></div>
+
+            <div class="book-card-content">
+                <div class="book-main-info">
+                    <h2 th:text="${book.title}">Book title</h2>
+
+                    <p class="book-author">
+                        by <span th:text="${book.author}">Author name</span>
+                    </p>
+                </div>
+
+                <dl class="book-metadata">
+                    <div>
+                        <dt>ISBN</dt>
+                        <dd th:text="${book.isbn}">978-0000000000</dd>
+                    </div>
+
+                    <div>
+                        <dt>Published</dt>
+                        <dd th:text="${book.publishedYear}">2008</dd>
+                    </div>
+                </dl>
+
+                <a class="book-link" th:href="@{/books/{id}(id=${book.id})}">
+                    View book <span aria-hidden="true">&rarr;</span>
+                </a>
+            </div>
+        </article>
+    </section>
+
+    <section class="empty-state" th:if="${books.content.isEmpty()}">
+        <span class="empty-symbol" aria-hidden="true">&sect;</span>
+
+        <h2>The shelves are empty</h2>
+
+        <p>No books have been added to the library yet.</p>
+    </section>
+
+    <nav class="pagination" th:if="${books.totalPages > 1}" aria-label="Book pagination">
+        <a
+                class="pagination-button"
+                th:classappend="${!books.hasPrevious()} ? 'disabled'"
+                th:href="${books.hasPrevious()}
+                    ? @{/books(page=${books.number - 1}, sort=${currentSort})}
+                    : '#'"
+                th:attr="aria-disabled=${!books.hasPrevious()}"
+        >
+            <span aria-hidden="true">&larr;</span> Previous
+        </a>
+
+        <span class="pagination-info">
+            Page
+            <strong th:text="${books.number + 1}">1</strong>
+            of
+            <strong th:text="${books.totalPages}">1</strong>
+        </span>
+
+        <a
+                class="pagination-button"
+                th:classappend="${!books.hasNext()} ? 'disabled'"
+                th:href="${books.hasNext()}
+                    ? @{/books(page=${books.number + 1}, sort=${currentSort})}
+                    : '#'"
+                th:attr="aria-disabled=${!books.hasNext()}"
+        >
+            Next <span aria-hidden="true">&rarr;</span>
+        </a>
+    </nav>
+</main>
+
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+
+</body>
+</html>

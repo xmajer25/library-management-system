@@ -1,0 +1,283 @@
+/* =========================================================
+   PAGE HEADING
+   ========================================================= */
+
+.page-heading {
+    margin-bottom: 42px;
+
+    text-align: center;
+}
+
+.page-heading h1 {
+    margin: 4px 0 8px;
+
+    color: var(--wood-dark);
+
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 500;
+}
+
+.page-heading p {
+    max-width: 550px;
+    margin: 0 auto;
+
+    color: var(--ink-light);
+
+    font-style: italic;
+}
+
+.section-ornament,
+.section-kicker {
+    color: var(--gold-dark);
+}
+
+.section-ornament {
+    font-size: 1rem;
+}
+
+.section-kicker {
+    font-size: 0.7rem;
+    font-weight: 700;
+
+    letter-spacing: 0.13em;
+
+    text-transform: uppercase;
+}
+
+/* =========================================================
+   TOOLBAR AND SORTING
+   ========================================================= */
+
+.collection-toolbar {
+    display: flex;
+
+    justify-content: center;
+
+    margin: -12px 0 28px;
+}
+
+.sort-form {
+    display: flex;
+
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 14px;
+
+    background:
+            linear-gradient(
+                    145deg,
+                    rgba(255, 250, 240, 0.92),
+                    rgba(229, 211, 173, 0.78)
+            );
+
+    border:
+            1px solid rgba(124, 87, 42, 0.32);
+
+    box-shadow:
+            0 10px 24px rgba(32, 18, 10, 0.11);
+}
+
+.sort-form label {
+    color: var(--gold-dark);
+
+    font-size: 0.72rem;
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+}
+
+.sort-control {
+    position: relative;
+}
+
+.sort-control::after {
+    content: "";
+
+    position: absolute;
+    top: 50%;
+    right: 14px;
+
+    width: 8px;
+    height: 8px;
+
+    border-right: 2px solid var(--gold-dark);
+    border-bottom: 2px solid var(--gold-dark);
+
+    pointer-events: none;
+
+    transform: translateY(-65%) rotate(45deg);
+}
+
+.sort-control select {
+    min-width: 180px;
+
+    padding: 9px 40px 9px 13px;
+
+    color: var(--ink);
+
+    appearance: none;
+    background: var(--parchment-light);
+
+    border:
+            1px solid rgba(105, 72, 37, 0.42);
+
+    border-radius: 0;
+
+    font: inherit;
+
+    cursor: pointer;
+}
+
+.sort-control select:focus-visible {
+    outline: 3px solid rgba(185, 139, 63, 0.28);
+    outline-offset: 2px;
+}
+
+/* =========================================================
+   LINKS AND BUTTONS
+   ========================================================= */
+
+.back-link {
+    display: inline-flex;
+
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 26px;
+
+    color: var(--wood-medium);
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+.back-link:hover {
+    color: var(--gold-dark);
+}
+
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
+.pagination {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 24px;
+
+    margin-top: 42px;
+}
+
+.pagination-button {
+    padding: 9px 15px;
+
+    color: var(--parchment-light);
+
+    background: var(--wood-medium);
+
+    border:
+            1px solid var(--gold-dark);
+
+    text-decoration: none;
+
+    transition:
+            background 150ms ease,
+            transform 150ms ease;
+}
+
+.pagination-button:hover:not(.disabled) {
+    background: var(--wood-dark);
+
+    transform: translateY(-1px);
+}
+
+.pagination-button.disabled {
+    opacity: 0.35;
+
+    pointer-events: none;
+}
+
+.pagination-info {
+    color: var(--ink-light);
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty-state {
+    padding: 55px 25px;
+
+    text-align: center;
+
+    color: var(--ink-light);
+
+    background:
+            rgba(255, 250, 239, 0.55);
+
+    border:
+            1px dashed rgba(128, 90, 46, 0.4);
+}
+
+.empty-state.compact {
+    padding: 30px 20px;
+}
+
+.empty-state h2 {
+    margin: 5px 0;
+
+    color: var(--wood-dark);
+}
+
+.empty-state p {
+    margin: 0;
+}
+
+.empty-symbol {
+    color: var(--gold);
+
+    font-size: 2rem;
+}
+
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+.status-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 6px 12px;
+
+    border-radius: 999px;
+
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    letter-spacing: 0.04em;
+}
+
+.status-badge.available {
+    color: var(--success);
+
+    background: var(--success-light);
+
+    border:
+            1px solid rgba(66, 107, 70, 0.25);
+}
+
+.status-badge.unavailable {
+    color: var(--danger);
+
+    background: var(--danger-light);
+
+    border:
+            1px solid rgba(136, 74, 59, 0.25);
+}

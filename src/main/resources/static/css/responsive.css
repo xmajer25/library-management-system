@@ -1,0 +1,80 @@
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 650px) {
+    .page-container {
+        width: min(100% - 24px, 1100px);
+
+        padding-top: 42px;
+    }
+
+    .library-brand {
+        gap: 8px;
+    }
+
+    .library-icon {
+        font-size: 1.3rem;
+    }
+
+    .collection-toolbar {
+        justify-content: stretch;
+
+        margin-top: -18px;
+    }
+
+    .sort-form {
+        align-items: flex-start;
+        flex-direction: column;
+
+        width: 100%;
+    }
+
+    .sort-control,
+    .sort-control select {
+        width: 100%;
+    }
+
+    .book-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .book-card {
+        min-height: auto;
+    }
+
+    .book-card-content {
+        padding: 24px 20px;
+    }
+
+    .book-detail-card {
+        grid-template-columns: 12px 1fr;
+    }
+
+    .book-detail-decoration span {
+        display: none;
+    }
+
+    .book-detail-content {
+        padding: 35px 24px;
+    }
+
+    .copy-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+
+        gap: 12px;
+    }
+
+    .pagination-info {
+        width: 100%;
+
+        text-align: center;
+
+        order: -1;
+    }
+}

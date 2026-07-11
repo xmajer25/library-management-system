@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: commonHead('Something Went Wrong | The Library')}"></head>
+<body>
+
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+
+<main class="page-container">
+    <section class="error-page">
+        <span class="error-code">500</span>
+        <span class="empty-symbol" aria-hidden="true">&sect;</span>
+
+        <h1>Something disturbed the archives</h1>
+
+        <p>An unexpected error occurred while processing your request.</p>
+
+        <a class="error-home-link" th:href="@{/books}">
+            Return to the collection
+        </a>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+
+</body>
+</html>

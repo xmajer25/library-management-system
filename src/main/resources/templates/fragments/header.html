@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<header th:fragment="siteHeader" class="site-header">
+    <div class="header-content">
+        <a th:href="@{/books}" class="library-brand" aria-label="The Library home">
+            <span class="library-icon" aria-hidden="true">&loz;</span>
+            <span class="library-title">The Library</span>
+            <span class="library-icon" aria-hidden="true">&loz;</span>
+        </a>
+
+        <p class="library-subtitle">
+            Stories, knowledge and timeless works
+        </p>
+    </div>
+</header>
+
+</body>
+</html>
