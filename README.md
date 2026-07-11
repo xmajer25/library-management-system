@@ -258,7 +258,7 @@ docs/screenshots/not-found.png
 
 Expected views:
 
-![Books list page](docs/screenshots/books-list.png)
+![Books list page](docs/screenshots/book-list.png)
 
 The books list page shows the main collection, the centered sorting control, book cards, and pagination. It is the main browser entry point at `/books`.
 
